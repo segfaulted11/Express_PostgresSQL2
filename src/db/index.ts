@@ -6,8 +6,7 @@ import config from "../config";
 //database
 // (creating the connection between the backend server and the database) ->
 export const pool = new Pool({
-  connectionString:
-    config.connection_string,
+  connectionString: config.connection_string,
 });
 //initializing the database(creating table) ->
 export const initDB = async () => {
@@ -24,6 +23,20 @@ export const initDB = async () => {
         updated_at TIMESTAMP DEFAULT NOW()
         );
         `);
+    //creating another table (profiles) and building the connection between it and the users table
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS profiles(
+        id SERIAL PRIMARY KEY,
+        user_id INT UNIQUE REFERENCES users(id) ON DELETE CASCADE,
+        bio TEXT,
+        address TEXT,
+        phone VARCHAR(11),
+        gender VARCHAR(1),
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW()
+      );
+    `);
+
     console.log("database is connected!");
   } catch (error) {
     console.log(error);

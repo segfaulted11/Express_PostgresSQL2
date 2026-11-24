@@ -1,5 +1,6 @@
 import express, { Application, Request, Response } from "express";
 import { userRouter } from "./modules/users/users.routes";
+import {profilesRouter } from "./modules/profiles/profiles.routes";
 const app: Application = express();
 
 // Middleware
@@ -17,9 +18,12 @@ app.get("/", (req: Request, res: Response) => {
 //how its all connected :
 //server.ts -> app.ts -> users.routes.ts -> users.controllers.ts -> users.services.ts
 
-//connecting the sub routers of Users w the main router ->
+//creating endpoint for every feature (e.g. users/profiles) ->
+//users endpoint
 app.use("/api/v1/users",userRouter)
 
+//profiles endpoint
+app.use("/api/v1/profiles",profilesRouter)
 
 
 export default app;

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { userControllers } from "./users.controllers";
 
-//create a router variable and call Router() in it. export the variable as userRouter
+//create a router variable and call Router() in it. export the variable as userRouter (after renaming)
 
 const router = Router();
 
