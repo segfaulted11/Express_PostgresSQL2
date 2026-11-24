@@ -10,7 +10,7 @@ const createProfile = async (req: Request, res: Response) => {
       message: "PROFILE CREATED SUCCESSFULLY!",
       data: result.rows[0],
     });
-  } catch (error:any) {
+  } catch (error:any) { 
     res.status(500).json({
       success: false,
       message: "FAILED TO CREATE THE PROFILE!",

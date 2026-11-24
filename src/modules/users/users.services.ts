@@ -1,16 +1,20 @@
+import bcrypt, { hash } from "bcryptjs";
 import { pool } from "../../db";
 import { IUpdateUser, IUser } from "./users.interface";
 
 //creating createUserIntoDB to handle the databse stuff for creating a user in the database and connecting it w the users.controllers.ts for the createUser function.
 const createUserIntoDB = async (payLoad: IUser) => {
   const { name, email, password, age } = payLoad;
+  const hashedPass = await bcrypt.hash(password,10);
+  
   //storing it(the data u r gonna send thru postman using the post method) on the database ->
   const result = await pool.query(
     `
     INSERT INTO users (name,email,password,age) VALUES($1,$2,$3,$4) RETURNING *
     `,
-    [name, email, password, age],
+    [name, email, hashedPass, age],
   );
+  delete result.rows[0].password;
   return result;
 };
 
