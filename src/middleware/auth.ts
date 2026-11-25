@@ -11,7 +11,7 @@ const authMiddleWare = async (
 ) => {
   //if the token exists show the data (for all users) if not, show the following response of 'unauthorze access'. this way we are protecting the 'api/v1/users' route for the get method, meaning when the user logs in, if they exist in the database, a token will be generated for them and using that token we are protecting the route.
   const token = req.headers.authorization; //the token u r sending thru postman, read the following comment to understand more.
-  //check if a token exists 
+  //check if a token exists
   if (!token) {
     res.status(401).json({
       success: false,
@@ -42,13 +42,16 @@ const authMiddleWare = async (
     });
   }
   //checking if user is active
-  if(!user.rows[0].is_active){
+  if (!user.rows[0].is_active) {
     res.status(403).json({
       success: false,
       message: "Forbidden!",
     });
   }
-
+  console.log(req.body); //it returns undefined bcz for GET method, its not possible to send body or we dont it.
+  req.user = decode;
+  console.log(req);//now theres object called 'user' and it contains the properties of jwtPayLoad(the obj u created in auth.services.ts)
+  //now u can access 'req.user' from getUsers controller (from users/users.controllers.ts/getUsers)
   next();
 };
 export default authMiddleWare;

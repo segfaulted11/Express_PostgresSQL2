@@ -24,6 +24,7 @@ const result = await userServices.createUserIntoDB(reqBody);
 //getting users 
 const getUsers =  async (req: Request, res: Response) => {
   try {
+      console.log('from getUsers',req.user)
  const result = await userServices.getUsersFromDB();
     res.status(200).json({
       success: true,
@@ -42,6 +43,7 @@ const getUsers =  async (req: Request, res: Response) => {
 //getting user
 const getUser =  async (req: Request, res: Response) => {
   try {
+
     const { id } = req.params;
     const result = await userServices.getUserFromDB(id as string);
 
