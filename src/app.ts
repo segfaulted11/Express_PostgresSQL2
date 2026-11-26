@@ -1,15 +1,27 @@
-import express, { Application, NextFunction, Request, Response } from "express";
+import express, { Application, Request, Response } from "express";
 import { userRouter } from "./modules/users/users.routes";
 import { profilesRouter } from "./modules/profiles/profiles.routes";
 import { authRouter } from "./modules/auth/auth.routes";
 import loggerMiddleWare from "./middleware/logger";
+import globalErrorHandler from "./middleware/globalErrorHandler";
+import cors from "cors";
+
+//creating the server
 const app: Application = express();
 
-// Middleware
+// Middleware :
+// Allow requests from the frontend running at localhost:3000
+const corsOptions = {
+  origin: "http://localhost:3000",
+  optionsSuccessStatus: 200
+};
+
+// Enable CORS using the specified options
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//logger middle
+//logger middleware
 app.use(loggerMiddleWare);
 
 // root route
@@ -32,5 +44,8 @@ app.use("/api/v1/profiles", profilesRouter);
 
 //auth endpoint
 app.use("/api/v1/auth", authRouter);
+
+// Global Error Handling Middleware
+app.use(globalErrorHandler);
 
 export default app;
