@@ -1,7 +1,7 @@
 import express, { Application, Request, Response } from "express";
 import { userRouter } from "./modules/users/users.routes";
 import { profilesRouter } from "./modules/profiles/profiles.routes";
-import { authRouter } from "./modules/auth/auth.routes";
+import { authRouter } from "./modules/authLogIn/auth.routes";
 import loggerMiddleWare from "./middleware/logger";
 import globalErrorHandler from "./middleware/globalErrorHandler";
 import cors from "cors";

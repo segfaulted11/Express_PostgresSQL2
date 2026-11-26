@@ -5,6 +5,16 @@ const logInUser = async (req: Request, res: Response) => {
   try {
     const result = await authServices.logInUserIntoDB(req.body);
     // console.log(result);
+    const { refreshToken } = result;
+
+    res.cookie("refreshToken", refreshToken, { 
+      secure: false, //if http(in locally its http) -> use false and if https (in production) -> use true
+      httpOnly :true, //to prevent XSS attack
+      sameSite : "lax",
+      path: "/",
+      domain : "localhost"
+     });
+
     res.status(200).json({
       success: true,
       message: "USER LOGGED IN SUCCESSFULLY!",

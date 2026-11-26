@@ -6,6 +6,9 @@ const createUser = async (req: Request, res: Response) => {
   const reqBody = req.body;
 
 const result = await userServices.createUserIntoDB(reqBody);
+
+
+
   try {
     res.status(200).json({
       success: true,

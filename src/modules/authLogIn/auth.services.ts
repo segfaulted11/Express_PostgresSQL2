@@ -41,14 +41,22 @@ const logInUserIntoDB = async (payLoad: {
     role : role
   };
   // console.log(user.rows[0])
+  //access token
   const accessToken = jwt.sign(
     jwtPayload,
     config.jwt_secret_token,
-    { expiresIn: "1D" },
+    { expiresIn: "1h" },
+  );
+
+  //refresh token
+  const refreshToken = jwt.sign(
+    jwtPayload,
+    config.jwt_refresh_token,
+    { expiresIn: "10d" },
   );
   const use_r = user.rows[0];
   delete use_r.password;
-  return {accessToken, user : use_r};
+  return {accessToken, refreshToken, user : use_r};
 };
 
 export const authServices = {

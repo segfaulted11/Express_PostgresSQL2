@@ -152,3 +152,33 @@ Method : GET | URL : /api/v1/users | Time : 11/26/2026, 6:33:11 PM
 Method : GET | URL : /api/v1/users | Time : 11/26/2026, 6:51:22 PM
 
 Method : GET | URL : /api/v1/users | Time : 11/26/2026, 6:51:54 PM
+
+Method : GET | URL : / | Time : 11/26/2026, 7:50:02 PM
+
+Method : GET | URL : /favicon.ico | Time : 11/26/2026, 7:50:02 PM
+
+Method : POST | URL : /api/v1/auth/login | Time : 11/26/2026, 7:58:54 PM
+
+Method : GET | URL : /api/v1/users | Time : 11/26/2026, 7:59:24 PM
+
+Method : POST | URL : /api/v1/auth/login | Time : 11/26/2026, 7:59:58 PM
+
+Method : POST | URL : /api/v1/users | Time : 11/26/2026, 8:00:52 PM
+
+Method : POST | URL : /api/v1/users | Time : 11/26/2026, 8:01:00 PM
+
+Method : POST | URL : /api/v1/auth/login | Time : 11/26/2026, 8:01:25 PM
+
+Method : GET | URL : /api/v1/users | Time : 11/26/2026, 8:01:39 PM
+
+Method : GET | URL : /api/v1/users/10 | Time : 11/26/2026, 8:01:56 PM
+
+Method : GET | URL : /api/v1/users/9 | Time : 11/26/2026, 8:02:02 PM
+
+Method : GET | URL : /api/v1/users/8 | Time : 11/26/2026, 8:02:06 PM
+
+Method : POST | URL : /api/v1/auth/login | Time : 11/26/2026, 8:11:19 PM
+
+Method : POST | URL : /api/v1/auth/login | Time : 11/26/2026, 8:17:19 PM
+
+Method : POST | URL : /api/v1/auth/login | Time : 11/26/2026, 8:28:17 PM
