@@ -5,29 +5,49 @@ const logInUser = async (req: Request, res: Response) => {
   try {
     const result = await authServices.logInUserIntoDB(req.body);
     // console.log(result);
-    const { refreshToken } = result;
+    const { accessToken, user } = result;
 
-    res.cookie("refreshToken", refreshToken, { 
-      secure: false, //if http(in locally its http) -> use false and if https (in production) -> use true
-      httpOnly :true, //to prevent XSS attack
-      sameSite : "lax",
+    res.cookie("refreshToken", result.refreshToken, {
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: true,
+      sameSite: "lax",
       path: "/",
-      domain : "localhost"
-     });
+    });
 
     res.status(200).json({
       success: true,
       message: "USER LOGGED IN SUCCESSFULLY!",
+      data: {
+        accessToken,
+        user,
+      },
+    });
+  }catch (error: any) {
+  res.status(401).json({
+    success: false,
+    message: error.message || "Authentication failed",
+  });
+}
+};
+const generateToken = async (req: Request, res: Response) => {
+  try {
+    const result = await authServices.generateAccessToken(
+      req.cookies.refreshToken,
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "ACCESS TOKEN GENERATED SUCCESSFULLY!",
       data: result,
     });
   } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-      data: error,
-    });
-  }
+  res.status(401).json({
+    success: false,
+    message: error.message || "Authentication failed",
+  });
+}
 };
 export const authControllers = {
   logInUser,
+  generateToken,
 };

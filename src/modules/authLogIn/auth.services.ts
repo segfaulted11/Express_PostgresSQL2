@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import { pool } from "../../db";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import config from "../../config";
 
 const logInUserIntoDB = async (payLoad: {
@@ -38,27 +38,60 @@ const logInUserIntoDB = async (payLoad: {
     id: id,
     name: name,
     email: userEmail,
-    role : role
+    role: role,
   };
   // console.log(user.rows[0])
   //access token
-  const accessToken = jwt.sign(
-    jwtPayload,
-    config.jwt_secret_token,
-    { expiresIn: "1h" },
-  );
+  const accessToken = jwt.sign(jwtPayload, config.jwt_secret_token, {
+    expiresIn: "1h",
+  });
 
   //refresh token
-  const refreshToken = jwt.sign(
-    jwtPayload,
-    config.jwt_refresh_token,
-    { expiresIn: "10d" },
-  );
+  const refreshToken = jwt.sign(jwtPayload, config.jwt_refresh_token, {
+    expiresIn: "10d",
+  });
   const use_r = user.rows[0];
   delete use_r.password;
-  return {accessToken, refreshToken, user : use_r};
+  return { accessToken, refreshToken, user: use_r };
+};
+
+const generateAccessToken = async (token: string) => {
+  if (!token) {
+    throw new Error("unauthorized access");
+  }
+  const decode = jwt.verify(
+    token as string,
+    config.jwt_refresh_token,
+  ) as JwtPayload;
+  const user = await pool.query(
+    `
+    SELECT * FROM users WHERE email=$1
+    `,
+    [decode.email],
+  );
+  //check if user exists
+  if (user.rowCount === 0) {
+    throw new Error("user not found!");
+  }
+  //checking if user is active
+  if (!user.rows[0].is_active) {
+    throw new Error("forbidden!");
+  }
+  //....
+    const { id, name, email: userEmail, role } = user.rows[0];
+    const jwtPayload = {
+    id: id,
+    name: name,
+    email: userEmail,
+    role: role,
+  };
+  const accessToken = jwt.sign(jwtPayload, config.jwt_secret_token, {
+    expiresIn: "1h",
+  });
+  return {accessToken};
 };
 
 export const authServices = {
   logInUserIntoDB,
+  generateAccessToken,
 };

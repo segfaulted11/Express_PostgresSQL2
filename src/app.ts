@@ -5,6 +5,7 @@ import { authRouter } from "./modules/authLogIn/auth.routes";
 import loggerMiddleWare from "./middleware/logger";
 import globalErrorHandler from "./middleware/globalErrorHandler";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 //creating the server
 const app: Application = express();
@@ -23,6 +24,9 @@ app.use(express.urlencoded({ extended: true }));
 
 //logger middleware
 app.use(loggerMiddleWare);
+
+//
+app.use(cookieParser())
 
 // root route
 app.get("/", (req: Request, res: Response) => {
