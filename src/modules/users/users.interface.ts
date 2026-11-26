@@ -3,6 +3,7 @@ export interface IUser{
     email : string,
     password : string,
     age : number,
-    is_active? : boolean
+    is_active? : boolean,
+    role? : string
 }
 export type IUpdateUser = Partial<IUser>;

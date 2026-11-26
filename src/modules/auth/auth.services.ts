@@ -33,12 +33,14 @@ const logInUserIntoDB = async (payLoad: {
     throw new Error("user is not active therefore access denied!");
   }
   // since all chekced, now generate the token ->
-  const { id, name, email: userEmail } = user.rows[0];
+  const { id, name, email: userEmail, role } = user.rows[0];
   const jwtPayload = {
     id: id,
     name: name,
     email: userEmail,
+    role : role
   };
+  // console.log(user.rows[0])
   const accessToken = jwt.sign(
     jwtPayload,
     config.jwt_secret_token,
